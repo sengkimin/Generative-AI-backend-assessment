@@ -2,8 +2,8 @@ import { TokenPayload } from '../common/types/user';
 import * as jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { RoleEnum, RoleType } from '../common';
-import dotenv from "dotenv";
-dotenv.config(); 
+
+const apikey=process.env.API_Key 
 
 // Middleware to protect routes and check roles
 const protectRoute = (roles: RoleType[] = [RoleEnum[2]]) => {
@@ -12,7 +12,7 @@ const protectRoute = (roles: RoleType[] = [RoleEnum[2]]) => {
 
     //  API Key
     const apiKeyRequest = req.headers["x-api-key"] as string;
-    if (apiKeyRequest !== process.env.API_KEY) {
+    if (apiKeyRequest !== apikey) {
       return res.status(401).json({ message: "Invalid API Key" });
     }
 
